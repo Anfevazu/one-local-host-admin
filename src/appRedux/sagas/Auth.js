@@ -22,6 +22,7 @@ import {
   userGoogleSignInSuccess,
   userTwitterSignInSuccess
 } from "../actions/Auth";
+import {saveHoust} from "../../services/firebase/houst"
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
   await  auth.createUserWithEmailAndPassword(email, password)
@@ -77,6 +78,7 @@ function* createUserWithEmailPassword({payload}) {
 function* signInUserWithGoogle() {
   try {
     const signUpUser = yield call(signInUserWithGoogleRequest);
+    saveHoust(signUpUser)
     if (signUpUser.message) {
       yield put(showAuthMessage(signUpUser.message));
     } else {
