@@ -94,6 +94,7 @@ function* signInUserWithGoogle() {
 function* signInUserWithFacebook() {
   try {
     const signUpUser = yield call(signInUserWithFacebookRequest);
+    saveHoust(signUpUser)
     if (signUpUser.message) {
       yield put(showAuthMessage(signUpUser.message));
     } else {
@@ -124,6 +125,7 @@ function* signInUserWithGithub() {
 function* signInUserWithTwitter() {
   try {
     const signUpUser = yield call(signInUserWithTwitterRequest);
+    saveHoust(signUpUser)
     if (signUpUser.message) {
       if (signUpUser.message.length > 100) {
         yield put(showAuthMessage('Your request has been canceled.'));
