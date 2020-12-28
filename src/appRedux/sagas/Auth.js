@@ -82,7 +82,7 @@ function* signInUserWithGoogle() {
     if (signUpUser.message) {
       yield put(showAuthMessage(signUpUser.message));
     } else {
-      localStorage.setItem('user_id', signUpUser.user.uid);
+      localStorage.setItem('user', JSON.stringify(signUpUser.user));
       yield put(userGoogleSignInSuccess(signUpUser.user.uid));
     }
   } catch (error) {
