@@ -5,6 +5,7 @@ import FormOne from './StepsForm/FormOne'
 import FormTwo from './StepsForm/FormTwo'
 import FormThree from './StepsForm/FormThree'
 import FormFour from "./StepsForm/FormFour";
+import FormFive from "./StepsForm/FormFive";
 
 import "./index.css";
 
@@ -27,7 +28,7 @@ const steps = [
   },
   {
     title: 'Banners',
-    content: 'Last-content',
+    content:  <FormFive />,
   },
   {
     title: 'Identity',
