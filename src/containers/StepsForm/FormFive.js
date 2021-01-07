@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Card, Row, Col, Modal, Upload, Button } from "antd";
+import { Card, Row, Col, Modal, Upload, Button, Input } from "antd";
 import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
 import UploadOutlined from "@ant-design/icons/lib/icons/UploadOutlined";
 
+const {TextArea} = Input;
 
 const FormFive = () => {
 
@@ -65,8 +66,8 @@ const FormFive = () => {
           </Card>
         </Col>
         <Col span={24}>
-          <Card className="gx-card" title="Banner List">
-            DESCRIPCION
+          <Card className="gx-card" title="Description">
+            <TextArea rows={4}/>
           </Card>
         </Col>
       </Row>

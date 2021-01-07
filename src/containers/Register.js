@@ -6,6 +6,8 @@ import FormTwo from './StepsForm/FormTwo'
 import FormThree from './StepsForm/FormThree'
 import FormFour from "./StepsForm/FormFour";
 import FormFive from "./StepsForm/FormFive";
+import FormSix from "./StepsForm/FormSix";
+import FormSeven from "./StepsForm/FormSeven";
 
 import "./index.css";
 
@@ -32,11 +34,15 @@ const steps = [
   },
   {
     title: 'Identity',
-    content: 'Last-content',
+    content: <FormSix />,
   },
   {
     title: 'Payment',
-    content: 'Last-content',
+    content: <FormSeven />,
+  },
+  {
+    title: 'Completed',
+    content: 'Form is Completed',
   }
 ];
 const Step = Steps.Step;
