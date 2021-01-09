@@ -1,29 +1,81 @@
-import React, { useState } from "react";
-import { Card, Row, Col, Modal, Upload, Button, Input } from "antd";
+import React, { useContext } from "react";
+import { Card, Row, Col, Modal, Upload, Button, Input, Form } from "antd";
 import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
 import UploadOutlined from "@ant-design/icons/lib/icons/UploadOutlined";
+import FormContext from "../FormContext";
 
-const {TextArea} = Input;
+const { TextArea } = Input;
 
 const FormFive = () => {
+  const context = useContext(FormContext)
+  const handledInput = (e) => context.setInput(e)
+  const { form: { files } } = context
 
-  const [state, setState] = useState({
-    previewVisible: false,
-    previewImage: '',
-    fileList: [],
-  })
-  const { previewVisible, previewImage, fileList } = state;
+  const { imageProfile, banners } = files
+  const { previewVisible, previewImage, fileList } = imageProfile;
 
-  const handleCancel = () => setState({ previewVisible: false });
+  const handleCancel = () => handledInput(
+    {
+      target:
+      {
+        name: 'files',
+        value: {
+          ...files,
+          imageProfile: {
+            ...imageProfile,
+            previewVisible: false
+          }
+        }
+      }
+    });
 
   const handlePreview = (file) => {
-    setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
-    });
+    handledInput(
+      {
+        target:
+        {
+          name: 'files',
+          value: {
+            ...files,
+            imageProfile: {
+              ...imageProfile,
+              previewImage: file.url || file.thumbUrl,
+              previewVisible: true
+            }
+          }
+        }
+      });
   };
 
-  const handleChange = ({ fileList }) => setState({ fileList });
+  const handleChange = ({ fileList }) => handledInput(
+    {
+      target:
+      {
+        name: 'files',
+        value: {
+          ...files,
+          imageProfile: {
+            ...imageProfile,
+            fileList
+          }
+        }
+      }
+    });
+
+  const handleChangeBanners = ({ fileList }) => handledInput(
+    {
+      target:
+      {
+        name: 'files',
+        value: {
+          ...files,
+          banners: {
+            ...banners,
+            fileList
+          }
+        }
+      }
+    });
 
   const uploadButton = (
     <div>
@@ -31,11 +83,6 @@ const FormFive = () => {
       <div className="ant-upload-text">Upload</div>
     </div>
   );
-
-  const props = {
-    action: '//jsonplaceholder.typicode.com/posts/',
-    listType: 'picture'
-  };
 
   return (
     <div className="gx-main-content">
@@ -58,7 +105,7 @@ const FormFive = () => {
         </Col>
         <Col span={24}>
           <Card className="gx-card" title="Banner List">
-            <Upload {...props}>
+            <Upload {...banners} onChange={handleChangeBanners} multiple >
               <Button>
                 <UploadOutlined /> upload
               </Button>
@@ -67,7 +114,9 @@ const FormFive = () => {
         </Col>
         <Col span={24}>
           <Card className="gx-card" title="Description">
-            <TextArea rows={4}/>
+            <Form.Item name="description" rules={[{ required: true, message: 'Please input your description!\'}' }]}>
+              <TextArea rows={4} name="description" onChange={(e) => handledInput(e)} />
+            </Form.Item>
           </Card>
         </Col>
       </Row>

@@ -9,6 +9,7 @@ const CheckboxGroup = Checkbox.Group;
 const FormFour = () => {
   const context = useContext(FormContext)
   const handledInput = (e) => context.setInput(e)
+  const { form } = context
 
   const [optionsLanguages, setOptionsLanguage] = useState(null)
   const [optionsCategories, setOptionsCategories] = useState([])
@@ -31,13 +32,13 @@ const FormFour = () => {
       <Row style={{ margin: "32px" }}>
         <Col span={12}>
           <Card className="gx-card" title="Languages">
-            <CheckboxGroup options={optionsLanguages} defaultValue={['Español']} onChange={onChange} />
+            <CheckboxGroup options={optionsLanguages} defaultValue={form.languages} onChange={onChange} />
           </Card>
         </Col>
 
         <Col span={12}>
           <Card className="gx-card" title="Categories">
-            <CheckboxGroup options={optionsCategories} defaultValue={['Español']} onChange={onChangeCategories} />
+            <CheckboxGroup options={optionsCategories} defaultValue={form.categories} onChange={onChangeCategories} />
           </Card>
         </Col>
       </Row>

@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Button, Checkbox, message, Form } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import FormContext from './FormContext'
 
 import {
   hideMessage,
@@ -23,6 +24,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const { loader, alertMessage, showMessage, authUser } = useSelector(({ auth }) => auth);
   const history = useHistory();
+  const formContext = useContext(FormContext)
 
   useEffect(() => {
     if (showMessage) {
@@ -30,8 +32,20 @@ const SignIn = () => {
         dispatch(hideMessage());
       }, 100);
     }
-    if (authUser !== null) {
+    const userData = JSON.parse(localStorage.getItem('user'))
+    if (authUser !== null && userData && userData.formCompleted) {
       history.push('/');
+    }
+    if (userData && !userData.formCompleted) {
+      formContext.setForm(prevState => ({
+        ...prevState,
+        email: authUser.email,
+        firstName: authUser.given_name,
+        lastName: authUser.family_name,
+        formCompleted: authUser.formCompleted
+      }))
+
+      history.push('/register');
     }
   });
 
@@ -77,7 +91,7 @@ const SignIn = () => {
                   dispatch(showAuthLoader());
                   dispatch(userGoogleSignIn());
                 }}>
-                  <GoogleOutlined style={{ margin: 10 }}/>
+                  <GoogleOutlined style={{ margin: 10 }} />
                   <IntlMessages id="app.userAuth.signInGoogle" />
                 </Button>
               </Form.Item>
@@ -86,7 +100,7 @@ const SignIn = () => {
                   dispatch(showAuthLoader());
                   dispatch(userFacebookSignIn());
                 }}>
-                  <FacebookOutlined style={{ margin: 10 }}/>
+                  <FacebookOutlined style={{ margin: 10 }} />
                   <IntlMessages id="app.userAuth.signInFacebook" />
                 </Button>
               </Form.Item>
@@ -95,7 +109,7 @@ const SignIn = () => {
                   dispatch(showAuthLoader());
                   dispatch(userTwitterSignIn());
                 }}>
-                  <TwitterOutlined style={{ margin: 10 }}/>
+                  <TwitterOutlined style={{ margin: 10 }} />
                   <IntlMessages id="app.userAuth.signInTwitter" />
                 </Button>
               </Form.Item>

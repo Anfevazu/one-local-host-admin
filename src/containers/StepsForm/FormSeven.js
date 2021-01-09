@@ -1,45 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, Row, Col, Input, Select, Form } from "antd";
+import FormContext from "../FormContext";
+
 
 const Option = Select.Option;
 
 const FormSeven = () => {
-  function handleChange(value) {
-    console.log(`selected ${value}`);
+  const context = useContext(FormContext)
+  const handledInput = (e) => context.setInput(e)
+
+  const handleChangeType = (value) => {
+    handledInput({ target: { name: 'documentType', value } })
   }
 
-  function handleBlur() {
-    console.log('blur');
-  }
-
-  function handleFocus() {
-    console.log('focus');
-  }
-
-  function onChange() {
-    console.log('onChange');
+  const handleChangeBank = (value) => {
+    handledInput({ target: { name: 'documentType', value } })
   }
 
   return (
     <div className="gx-main-content">
-      <Row style={{ margin: "32px" }}>
+      {/* <Row style={{ margin: "32px" }}>
         <Col span={12}>
           <Card style={{ marginBottom: "0px" }} title="Mercado Pago">
-            <Input placeholder="Email" />
+            <Form.Item name="emailMercadoPago" rules={[{ required: true, message: 'Please input your email registred in MercadoPago!\'}' }]}>
+              <Input placeholder="Email" name="emailMercadoPago" onChange={(e) => handledInput(e)} />
+            </Form.Item>
           </Card>
         </Col>
 
         <Col span={12}>
           <Card style={{ marginBottom: "0px" }} title="Datos Bancarios">
             <Col span={24}>
-              <Form.Item name="bank" rules={[{ required: true, message: 'Please input your bank!\'}' }]}>
+              <Form.Item name="accountBank" rules={[{ required: true, message: 'Please input your bank!\'}' }]}>
                 <Select
                   showSearch
                   placeholder="Select a bank"
                   optionFilterProp="children"
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
+                  onChange={handleChangeBank}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
                   <Option value="BBVA">BBVA</Option>
@@ -47,19 +44,19 @@ const FormSeven = () => {
                   <Option value="Bancolombia">Bancolombia</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name="bank" rules={[{ required: true, message: 'Please input your bank!\'}' }]}>
-                <Select placeholder="Select a bank type" onChange={handleChange}>
+              <Form.Item name="accountType" rules={[{ required: true, message: 'Please input your account type!\'}' }]}>
+                <Select placeholder="Select a bank type" onChange={handleChangeType}>
                   <Option value="Ahorros">Ahorros</Option>
                   <Option value="Corriente">Corriente</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name="bank" rules={[{ required: true, message: 'Please input your bank!\'}' }]}>
-                <Input type="number" placeholder="No. Bank" onChange={onChange} />
+              <Form.Item name="accountNumber" rules={[{ required: true, message: 'Please input your account number!\'}' }]}>
+                <Input type="number" placeholder="No. Bank" name="accountNumber" onChange={(e) => handledInput(e)} />
               </Form.Item>
             </Col>
           </Card>
         </Col>
-      </Row>
+      </Row> */}
     </div>
   )
 }

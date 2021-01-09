@@ -22,7 +22,7 @@ import {
   userGoogleSignInSuccess,
   userTwitterSignInSuccess
 } from "../actions/Auth";
-import {saveHoust} from "../../services/firebase/houst"
+import {saveHoust, getHoust} from "../../services/firebase/houst"
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
   await  auth.createUserWithEmailAndPassword(email, password)
@@ -82,7 +82,8 @@ function* signInUserWithGoogle() {
     if (signUpUser.message) {
       yield put(showAuthMessage(signUpUser.message));
     } else {
-      localStorage.setItem('user', JSON.stringify(signUpUser.user));
+      const userStorage = yield getHoust(signUpUser.user)
+      localStorage.setItem('user', JSON.stringify(userStorage));
       yield put(userGoogleSignInSuccess(signUpUser.user.uid));
     }
   } catch (error) {
@@ -98,7 +99,8 @@ function* signInUserWithFacebook() {
     if (signUpUser.message) {
       yield put(showAuthMessage(signUpUser.message));
     } else {
-      localStorage.setItem('user_id', signUpUser.user.uid);
+      const userStorage = yield getHoust(signUpUser.user)
+      localStorage.setItem('user', JSON.stringify(userStorage));
       yield put(userFacebookSignInSuccess(signUpUser.user.uid));
     }
   } catch (error) {
@@ -133,7 +135,8 @@ function* signInUserWithTwitter() {
         yield put(showAuthMessage(signUpUser.message));
       }
     } else {
-      localStorage.setItem('user_id', signUpUser.user.uid);
+      const userStorage = yield getHoust(signUpUser.user)
+      localStorage.setItem('user', JSON.stringify(userStorage));
       yield put(userTwitterSignInSuccess(signUpUser.user.uid));
     }
   } catch (error) {
@@ -161,6 +164,7 @@ function* signOut() {
     const signOutUser = yield call(signOutRequest);
     if (signOutUser === undefined) {
       localStorage.removeItem('user_id');
+      localStorage.removeItem('user');
       yield put(userSignOutSuccess(signOutUser));
     } else {
       yield put(showAuthMessage(signOutUser.message));

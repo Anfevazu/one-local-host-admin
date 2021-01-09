@@ -4,7 +4,7 @@ const saveHoust = ({ additionalUserInfo, user }) => {
   const { profile, isNewUser } = additionalUserInfo
   const { uid } = user
 
-  isNewUser && firestore.collection("houst").doc(uid).set(profile)
+  isNewUser && firestore.collection("houst").doc(uid).set({ ...profile, formCompleted: false })
     .then(function () {
       console.log("Document successfully written!");
     })
@@ -13,6 +13,20 @@ const saveHoust = ({ additionalUserInfo, user }) => {
     });
 }
 
+const getHoust = async ({uid}) => {
+  const houstRef = firestore.collection("houst").doc(uid);
+
+  try {
+    const doc = await houstRef.get()
+    if (doc.exists) return doc.data()
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  } catch (error) {
+    console.log("Error getting document:", error);
+  }
+}
+
 export {
-  saveHoust
+  saveHoust,
+  getHoust
 }

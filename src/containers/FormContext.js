@@ -7,12 +7,22 @@ const FormProvider = ({ children }) => {
   const [form, setForm] = useState({
     bacanHost: true,
     warnHost: false,
+    files: {
+      imageProfile: {
+        previewVisible: false,
+        previewImage: '',
+        fileList: []
+      },
+      banners: {
+        action: '//jsonplaceholder.typicode.com/posts/',
+        listType: 'picture',
+      }
+    }
   })
 
   // Method to update state
   const setInput = (e) => {
     const { name, value } = e.target
-    console.log(name, value)
     setForm(prevState => ({
       ...prevState,
       [name]: value
@@ -25,6 +35,7 @@ const FormProvider = ({ children }) => {
       value={{
         form,
         setInput,
+        setForm
       }}
     >
       {children}

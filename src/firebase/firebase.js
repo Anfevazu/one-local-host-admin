@@ -21,10 +21,12 @@ const twitterAuthProvider = new firebase.auth.TwitterAuthProvider();
 
 const database = firebase.database();
 const firestore = firebase.firestore();
+const storage = firebase.storage();
 
 export {
   database,
   firestore,
+  storage,
   auth,
   googleAuthProvider,
   githubAuthProvider,
