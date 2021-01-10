@@ -1,13 +1,14 @@
 import firebase from "firebase";
+import "firebase/auth";
 
 // Initialize Firebase
 const config = {
-  apiKey: "AIzaSyAz-GPfA-hN74oFh3XvXsF9vQrlE5xpU10",
-  authDomain: "wieldy-4f59c.firebaseapp.com",
-  databaseURL: "https://wieldy-4f59c.firebaseio.com",
-  projectId: "wieldy-4f59c",
-  storageBucket: "wieldy-4f59c.appspot.com",
-  messagingSenderId: "81949884261"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID
 };
 
 firebase.initializeApp(config);
@@ -19,9 +20,13 @@ const githubAuthProvider = new firebase.auth.GithubAuthProvider();
 const twitterAuthProvider = new firebase.auth.TwitterAuthProvider();
 
 const database = firebase.database();
+const firestore = firebase.firestore();
+const storage = firebase.storage();
 
 export {
   database,
+  firestore,
+  storage,
   auth,
   googleAuthProvider,
   githubAuthProvider,

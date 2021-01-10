@@ -22,6 +22,7 @@ import {
   userGoogleSignInSuccess,
   userTwitterSignInSuccess
 } from "../actions/Auth";
+import {saveHoust, getHoust} from "../../services/firebase/houst"
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
   await  auth.createUserWithEmailAndPassword(email, password)
@@ -77,10 +78,12 @@ function* createUserWithEmailPassword({payload}) {
 function* signInUserWithGoogle() {
   try {
     const signUpUser = yield call(signInUserWithGoogleRequest);
+    saveHoust(signUpUser)
     if (signUpUser.message) {
       yield put(showAuthMessage(signUpUser.message));
     } else {
-      localStorage.setItem('user_id', signUpUser.user.uid);
+      const userStorage = yield getHoust(signUpUser.user)
+      localStorage.setItem('user', JSON.stringify(userStorage));
       yield put(userGoogleSignInSuccess(signUpUser.user.uid));
     }
   } catch (error) {
@@ -92,10 +95,12 @@ function* signInUserWithGoogle() {
 function* signInUserWithFacebook() {
   try {
     const signUpUser = yield call(signInUserWithFacebookRequest);
+    saveHoust(signUpUser)
     if (signUpUser.message) {
       yield put(showAuthMessage(signUpUser.message));
     } else {
-      localStorage.setItem('user_id', signUpUser.user.uid);
+      const userStorage = yield getHoust(signUpUser.user)
+      localStorage.setItem('user', JSON.stringify(userStorage));
       yield put(userFacebookSignInSuccess(signUpUser.user.uid));
     }
   } catch (error) {
@@ -122,6 +127,7 @@ function* signInUserWithGithub() {
 function* signInUserWithTwitter() {
   try {
     const signUpUser = yield call(signInUserWithTwitterRequest);
+    saveHoust(signUpUser)
     if (signUpUser.message) {
       if (signUpUser.message.length > 100) {
         yield put(showAuthMessage('Your request has been canceled.'));
@@ -129,7 +135,8 @@ function* signInUserWithTwitter() {
         yield put(showAuthMessage(signUpUser.message));
       }
     } else {
-      localStorage.setItem('user_id', signUpUser.user.uid);
+      const userStorage = yield getHoust(signUpUser.user)
+      localStorage.setItem('user', JSON.stringify(userStorage));
       yield put(userTwitterSignInSuccess(signUpUser.user.uid));
     }
   } catch (error) {
@@ -157,6 +164,7 @@ function* signOut() {
     const signOutUser = yield call(signOutRequest);
     if (signOutUser === undefined) {
       localStorage.removeItem('user_id');
+      localStorage.removeItem('user');
       yield put(userSignOutSuccess(signOutUser));
     } else {
       yield put(showAuthMessage(signOutUser.message));
