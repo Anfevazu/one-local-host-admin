@@ -1,4 +1,4 @@
-import { message, Form } from "antd";
+import { Form } from "antd";
 import { useHistory } from "react-router-dom";
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,18 +15,21 @@ import FacebookOutlined from "@ant-design/icons/lib/icons/FacebookFilled";
   userFacebookSignIn,
 } from "appReduxOld/actions/Auth"; */
 import IntlMessages from "util/IntlMessages";
-import CircularProgress from "components/CircularProgress/index";
+import useCommon from '../hooks/common.hook';
+import Loader from "../components/LoaderPage/LoaderPage";
 
 const SignIn = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
-  const { alertMessage, showMessage, authUser } = useSelector(({ auth }) => auth);
+  const dispatch = useDispatch();
+  const { authUser } = useSelector(({ auth }) => auth);
+  const { message: showMessage, setMessage, loading, toogleLoading } = useCommon();
+
   const buttonsSocialLogin = [
     {
       name: 'Google',
       icon: GoogleOutlined,
       onClick: () => {
-
+        setMessage("HOLA MUNDO");
         /* dispatch(showAuthLoader());
         dispatch(userGoogleSignIn()); */
       }
@@ -35,7 +38,7 @@ const SignIn = () => {
       name: 'Facebook',
       icon: FacebookOutlined,
       onClick: () => {
-
+        toogleLoading();
         /* dispatch(showAuthLoader());
         dispatch(userFacebookSignIn()); */
       }
@@ -119,7 +122,7 @@ const SignIn = () => {
               ))}
             </div>
           </div>
-          {showMessage ? message.error(alertMessage.toString()) : null}
+          {loading && <Loader />}
         </div>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import {
   FETCH_ERROR, FETCH_START, FETCH_SUCCESS, HIDE_MESSAGE, SHOW_MESSAGE,
-  TOGGLE_COLLAPSED_NAV, WINDOW_WIDTH,
+  TOGGLE_COLLAPSED_NAV, WINDOW_WIDTH, ON_HIDE_LOADER, ON_SHOW_LOADER,
 } from '../actions/type.actions';
 
 const INIT_STATE = {
   error: "",
   loading: false,
-  message: '',
+  message: null,
   navCollapsed: true,
   width: window.innerWidth,
   pathname: '/',
@@ -31,6 +31,12 @@ export default (state = INIT_STATE, action) => {
         ...state,
         navCollapsed: action.navCollapsed
       }
+    }
+    case ON_SHOW_LOADER: {
+      return {...state, loading: true};
+    }
+    case ON_HIDE_LOADER: {
+      return {...state, loading: false};
     }
     case FETCH_START: {
       return {...state, error: '', message: '', loading: true};

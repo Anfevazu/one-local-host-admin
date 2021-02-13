@@ -1,11 +1,11 @@
-import { ConfigProvider } from 'antd';
+import { message, ConfigProvider } from 'antd';
 import {IntlProvider} from "react-intl";
 import React, {memo, useEffect} from "react";
 
 import Router from '../../routes';
 import AppLocale from "lngProvider";
+import useCommon from '../../hooks/common.hook';
 import useSettings from '../../hooks/settings.hook';
-
 
 import {
   LAYOUT_TYPE_BOXED,
@@ -48,8 +48,9 @@ const setNavStyle = (navStyle) => {
   }
 };
 
-const App = (props) => {
+const App = () => {
   const {locale, navStyle, layoutType} = useSettings();
+  const { message: showMessage } = useCommon();
   setNavStyle(navStyle);
   setLayoutType(layoutType);
 
@@ -69,7 +70,10 @@ const App = (props) => {
       <IntlProvider
         locale={currentAppLocale.locale}
         messages={currentAppLocale.messages}>
-          <Router />
+          <>
+            <Router />
+            {showMessage ? message.error(showMessage) : null}
+          </>
       </IntlProvider>
     </ConfigProvider>
   )
