@@ -7,7 +7,7 @@ import SearchBox from "components/SearchBox";
 import UserInfo from "components/UserInfo";
 import AppNotification from "components/AppNotification";
 import MailNotification from "components/MailNotification";
-import {switchLanguage, toggleCollapsedSideNav} from "../../../appRedux/actions/Setting";
+import {switchLanguage, toggleCollapsedSideNav} from "../../../appReduxOld/actions/Setting";
 import HorizontalNav from "../HorizontalNav";
 import {Link} from "react-router-dom";
 import IntlMessages from "util/IntlMessages";

@@ -11,7 +11,7 @@ import {
   userGoogleSignIn,
   userSignUp,
   userTwitterSignIn
-} from "appRedux/actions/Auth";
+} from "appReduxOld/actions/Auth";
 
 import IntlMessages from "util/IntlMessages";
 import {message} from "antd/lib/index";

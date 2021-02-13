@@ -1,38 +1,37 @@
 import React from "react";
 import {Layout} from "antd";
+import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
 
 import Sidebar from "../Sidebar/index";
-import HorizontalDefault from "../Topbar/HorizontalDefault/index";
-import HorizontalDark from "../Topbar/HorizontalDark/index";
-import InsideHeader from "../Topbar/InsideHeader/index";
 import AboveHeader from "../Topbar/AboveHeader/index";
 import BelowHeader from "../Topbar/BelowHeader/index";
+import InsideHeader from "../Topbar/InsideHeader/index";
+import HorizontalDark from "../Topbar/HorizontalDark/index";
+import HorizontalDefault from "../Topbar/HorizontalDefault/index";
 
 import Topbar from "../Topbar/index";
-import {footerText} from "util/config";
-import App from "routes/index";
-import {useSelector} from "react-redux";
+
 import {
+  NAV_STYLE_FIXED,
+  NAV_STYLE_DRAWER,
+  NAV_STYLE_MINI_SIDEBAR,
   NAV_STYLE_ABOVE_HEADER,
   NAV_STYLE_BELOW_HEADER,
   NAV_STYLE_DARK_HORIZONTAL,
   NAV_STYLE_DEFAULT_HORIZONTAL,
-  NAV_STYLE_DRAWER,
-  NAV_STYLE_FIXED,
+  NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
   NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
-  NAV_STYLE_MINI_SIDEBAR,
   NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
-  NAV_STYLE_NO_HEADER_MINI_SIDEBAR
 } from "../../constants/ThemeSetting";
+import {footerText} from "util/config";
 import NoHeaderNotification from "../Topbar/NoHeaderNotification/index";
-import {useRouteMatch} from "react-router-dom";
 
 const {Content, Footer} = Layout;
 
-const MainApp = () => {
+const MainApp = ({ children }) => {
 
-  const {navStyle} = useSelector(({settings}) => settings);
-  const match = useRouteMatch();
+  const { navStyle } = useSelector(({settings}) => settings);
 
   const getContainerClass = (navStyle) => {
     switch (navStyle) {
@@ -84,7 +83,7 @@ const MainApp = () => {
       <Layout>
         {getNavStyles(navStyle)}
         <Content className={`gx-layout-content ${getContainerClass(navStyle)} `}>
-          <App match={match}/>
+          {children}
           <Footer>
             <div className="gx-layout-footer-content">
               {footerText}
@@ -95,5 +94,10 @@ const MainApp = () => {
     </Layout>
   )
 };
+
+MainApp.protTypes = {
+  children: PropTypes.element,
+};
+
 export default MainApp;
 

@@ -3,7 +3,7 @@ import {Button, Drawer, Form, Radio} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import Auxiliary from "util/Auxiliary";
 import CustomScrollbars from "util/CustomScrollbars";
-import {onLayoutTypeChange, setThemeType} from "appRedux/actions/Setting";
+import {onLayoutTypeChange, setThemeType} from "appReduxOld/actions/Setting";
 
 import {
   BLUE,
@@ -50,7 +50,7 @@ import {
   THEME_TYPE_LITE,
   THEME_TYPE_SEMI_DARK
 } from "../constants/ThemeSetting";
-import {setThemeColor} from "../appRedux/actions";
+import {setThemeColor} from "../appReduxOld/actions";
 
 
 const CustomizerSystem = () => {

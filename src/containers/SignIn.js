@@ -1,41 +1,67 @@
-import React, {useEffect} from "react";
-import {Button, Checkbox, Input, message,Form} from "antd";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useHistory} from "react-router-dom";
+import { message, Form } from "antd";
+import { useHistory } from "react-router-dom";
+import React, { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import GoogleOutlined from "@ant-design/icons/lib/icons/GoogleOutlined";
+import TwitterOutlined from "@ant-design/icons/lib/icons/TwitterOutlined";
+import FacebookOutlined from "@ant-design/icons/lib/icons/FacebookFilled";
 
-import {
+/* import {
+  userSignIn,
   hideMessage,
   showAuthLoader,
-  userFacebookSignIn,
-  userGithubSignIn,
   userGoogleSignIn,
-  userSignIn,
-  userTwitterSignIn
-} from "appRedux/actions/Auth";
-
+  userTwitterSignIn,
+  userFacebookSignIn,
+} from "appReduxOld/actions/Auth"; */
 import IntlMessages from "util/IntlMessages";
 import CircularProgress from "components/CircularProgress/index";
-import TwitterOutlined from "@ant-design/icons/lib/icons/TwitterOutlined";
-import GithubOutlined from "@ant-design/icons/lib/icons/GithubOutlined";
-import FacebookOutlined from "@ant-design/icons/lib/icons/FacebookOutlined";
-import GoogleOutlined from "@ant-design/icons/lib/icons/GoogleOutlined";
 
-const SignIn =()=> {
-
+const SignIn = () => {
   const dispatch = useDispatch();
-  const {loader, alertMessage, showMessage,authUser}= useSelector(({auth}) => auth);
   const history = useHistory();
+  const { alertMessage, showMessage, authUser } = useSelector(({ auth }) => auth);
+  const buttonsSocialLogin = [
+    {
+      name: 'Google',
+      icon: GoogleOutlined,
+      onClick: () => {
+
+        /* dispatch(showAuthLoader());
+        dispatch(userGoogleSignIn()); */
+      }
+    },
+    {
+      name: 'Facebook',
+      icon: FacebookOutlined,
+      onClick: () => {
+
+        /* dispatch(showAuthLoader());
+        dispatch(userFacebookSignIn()); */
+      }
+    },
+    {
+      name: 'Twitter',
+      icon: TwitterOutlined,
+      onClick: () => {
+
+        /* dispatch(showAuthLoader());
+        dispatch(userTwitterSignIn()); */
+      }
+    }
+  ]
 
   useEffect(() => {
     if (showMessage) {
       setTimeout(() => {
-       dispatch(hideMessage());
+        /* dispatch(hideMessage()); */
       }, 100);
     }
-    if (authUser !== null) {
-      history.push('/');
-    }
-  });
+  }, [showMessage, dispatch]);
+
+  useEffect(() => {
+    authUser !== null && false && history.push('/');
+  }, [authUser, history]);
 
 
   const onFinishFailed = errorInfo => {
@@ -43,103 +69,61 @@ const SignIn =()=> {
   };
 
   const onFinish = values => {
-    console.log("finish",values)
-    dispatch(showAuthLoader());
-    dispatch(userSignIn(values));
+    console.log("finish", values)
+    /* dispatch(showAuthLoader());
+    dispatch(userSignIn(values)); */
   };
 
-    return (
-      <div className="gx-app-login-wrap">
-        <div className="gx-app-login-container">
-          <div className="gx-app-login-main-content">
-            <div className="gx-app-logo-content">
-              <div className="gx-app-logo-content-bg">
+  const Banner = useMemo(() => (
+    <div className="gx-app-logo-content">
+      <div className="gx-app-logo-content-bg">
+        <img
+          src="https://images.unsplash.com/photo-1573790285658-87d7586eec7d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+          alt='Neature'
+        />
+      </div>
+      <div className="gx-app-logo-wid">
+        <h1><IntlMessages id="app.userAuth.signIn" /></h1>
+        <p><IntlMessages id="app.userAuth.bySigning" /></p>
+        <p><IntlMessages id="app.userAuth.getAccount" /></p>
+      </div>
+      <div className="gx-app-logo">
+        <img alt="example" src={require("assets/images/logo.png")} />
+      </div>
+    </div>
+  ), []);
 
-                <img src={"https://via.placeholder.com/272x395"} alt='Neature'/>
-              </div>
-              <div className="gx-app-logo-wid">
-                <h1><IntlMessages id="app.userAuth.signIn"/></h1>
-                <p><IntlMessages id="app.userAuth.bySigning"/></p>
-                <p><IntlMessages id="app.userAuth.getAccount"/></p>
-              </div>
-              <div className="gx-app-logo">
-                <img alt="example" src={require("assets/images/logo.png")}/>
-              </div>
+  return (
+    <div className="gx-app-login-wrap">
+      <div className="gx-app-login-container">
+        <div className="gx-app-login-main-content">
+          {Banner}
+          <div className="gx-app-login-content">
+            <div className="gx-signin-form gx-form-row0" >
+              <Form.Item>
+                <span>
+                  <IntlMessages id="appModule.iAccept" /> {' '}
+                </span>
+                <span className="gx-signup-form-forgot gx-link">
+                  <IntlMessages id="appModule.termAndCondition" />
+                </span>
+              </Form.Item>
+              {(buttonsSocialLogin) && buttonsSocialLogin.map((btn) => (
+                <button
+                  size="large" type="text" className={`button-login button-${btn.name.toLowerCase()}`}
+                  onClick={btn.onClick}
+                >
+                  <btn.icon />
+                  <IntlMessages id="app.userAuth.signIn" /> {` ${btn.name}`}
+                </button>
+              ))}
             </div>
-            <div className="gx-app-login-content">
-              <Form
-                initialValues={{ remember: true }}
-                name="basic"
-                onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    className="gx-signin-form gx-form-row0">
-
-                <Form.Item
-                  initialValue="demo@example.com"
-                  rules={[{ required: true, message: 'The input is not valid E-mail!' }]} name="email">
-                  <Input placeholder="Email"/>
-                </Form.Item>
-                <Form.Item
-                  initialValue="demo#123"
-                  rules= {[{required: true, message: 'Please input your Password!'}]}  name="password">
-                    <Input type="password" placeholder="Password"/>
-                </Form.Item>
-                <Form.Item>
-                    <Checkbox><IntlMessages id="appModule.iAccept"/></Checkbox>
-                  <span className="gx-signup-form-forgot gx-link"><IntlMessages
-                    id="appModule.termAndCondition"/></span>
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" className="gx-mb-0" htmlType="submit">
-                    <IntlMessages id="app.userAuth.signIn"/>
-                  </Button>
-                  <span><IntlMessages id="app.userAuth.or"/></span> <Link to="/signup"><IntlMessages
-                  id="app.userAuth.signUp"/></Link>
-                </Form.Item>
-                <div className="gx-flex-row gx-justify-content-between">
-                  <span>or connect with</span>
-                  <ul className="gx-social-link">
-                    <li>
-                      <GoogleOutlined onClick={() => {
-                        dispatch(showAuthLoader());
-                        dispatch(userGoogleSignIn());
-                      }}/>
-                    </li>
-                    <li>
-                      <FacebookOutlined  onClick={() => {
-                        dispatch(showAuthLoader());
-                        dispatch(userFacebookSignIn());
-                      }}/>
-                    </li>
-                    <li>
-                      <GithubOutlined onClick={() => {
-                        dispatch(showAuthLoader());
-                        dispatch(userGithubSignIn());
-                      }}/>
-                    </li>
-                    <li>
-                      <TwitterOutlined  onClick={() => {
-                        dispatch(showAuthLoader());
-                        dispatch(userTwitterSignIn());
-                      }}/>
-                    </li>
-                  </ul>
-                </div>
-                <span
-                  className="gx-text-light gx-fs-sm"> demo user email: 'demo@example.com' and password: 'demo#123'</span>
-              </Form>
-            </div>
-
-            {loader ?
-              <div className="gx-loader-view">
-                <CircularProgress/>
-              </div> : null}
-            {showMessage ?
-              message.error(alertMessage.toString()) : null}
           </div>
+          {showMessage ? message.error(alertMessage.toString()) : null}
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default SignIn;

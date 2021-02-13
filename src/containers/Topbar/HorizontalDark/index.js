@@ -10,7 +10,7 @@ import AppNotification from "components/AppNotification";
 import MailNotification from "components/MailNotification";
 import {Link} from "react-router-dom";
 import HorizontalNav from "../HorizontalNav";
-import {switchLanguage, toggleCollapsedSideNav} from "../../../appRedux/actions/Setting";
+import {switchLanguage, toggleCollapsedSideNav} from "../../../appReduxOld/actions/Setting";
 import IntlMessages from "../../../util/IntlMessages";
 
 const {Header} = Layout;

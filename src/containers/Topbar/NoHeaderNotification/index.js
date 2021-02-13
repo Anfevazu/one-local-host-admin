@@ -1,6 +1,6 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {toggleCollapsedSideNav} from "../../../appRedux/actions/Setting";
+import {toggleCollapsedSideNav} from "../../../appReduxOld/actions/Setting";
 import IntlMessages from "util/IntlMessages";
 
 const NoHeaderNotification = () => {

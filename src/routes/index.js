@@ -1,14 +1,22 @@
-import React from "react";
-import {Route, Switch} from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 
-import asyncComponent from "util/asyncComponent";
+import Loader from '../components/LoaderPage/LoaderPage';
 
-const App = ({match}) => (
-  <div className="gx-main-content-wrapper">
-    <Switch>
-      <Route path={`${match.url}sample`} component={asyncComponent(() => import('./SamplePage'))}/>
-    </Switch>
-  </div>
+
+const SignInPage = lazy(() => import('../containers/SignIn'));
+
+/* <div className="gx-main-content-wrapper">
+</div> */
+const App = () => (
+  <Router>
+    <Suspense fallback={<Loader />} >
+      <Switch>
+        <Route exact path='/signin' component={SignInPage}/>
+        <Redirect exact from="*" strict to="signin" />
+      </Switch>
+    </Suspense>
+  </Router>
 );
 
 export default App;
