@@ -1,16 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Layout} from "antd";
 import PropTypes from "prop-types";
-import {useSelector} from "react-redux";
-
-import Sidebar from "../Sidebar/index";
-import AboveHeader from "../Topbar/AboveHeader/index";
-import BelowHeader from "../Topbar/BelowHeader/index";
-import InsideHeader from "../Topbar/InsideHeader/index";
-import HorizontalDark from "../Topbar/HorizontalDark/index";
-import HorizontalDefault from "../Topbar/HorizontalDefault/index";
-
-import Topbar from "../Topbar/index";
+import { useFirestore, useFirestoreDocData } from 'reactfire';
 
 import {
   NAV_STYLE_FIXED,
@@ -24,14 +15,22 @@ import {
   NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
   NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
 } from "../../constants/ThemeSetting";
-import {footerText} from "util/config";
+import Topbar from "../Topbar/index";
+import Sidebar from "../Sidebar/index";
+import { footerText } from "util/config";
+import useSettings from '../../hooks/settings.hook';
+import AboveHeader from "../Topbar/AboveHeader/index";
+import BelowHeader from "../Topbar/BelowHeader/index";
+import InsideHeader from "../Topbar/InsideHeader/index";
+import HorizontalDark from "../Topbar/HorizontalDark/index";
+import HorizontalDefault from "../Topbar/HorizontalDefault/index";
 import NoHeaderNotification from "../Topbar/NoHeaderNotification/index";
 
 const {Content, Footer} = Layout;
 
 const MainApp = ({ children }) => {
 
-  const { navStyle } = useSelector(({settings}) => settings);
+  const { navStyle } = useSettings();
 
   const getContainerClass = (navStyle) => {
     switch (navStyle) {

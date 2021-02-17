@@ -1,55 +1,31 @@
-import { useSelector, useDispatch } from 'react-redux';
+import firebase from 'firebase';
+import { useAuth as useAuthFB, useUser } from 'reactfire';
 
-import {
-  auth,
-  facebookAuthProvider,
-  githubAuthProvider,
-  googleAuthProvider,
-  twitterAuthProvider
-} from "../firebase/firebase";
-import { getAction } from '../util/redux';
-import { AUTH_IN, AUTH_OUT } from 'constants/ActionTypes';
+const getProvider = (social) => {
+  switch (social){
+    case 'facebook':
+      return new firebase.auth.FacebookAuthProvider();
+    case 'twitter':
+      return new firebase.auth.TwitterAuthProvider();
+    case 'google':
+    default:
+      return new firebase.auth.GoogleAuthProvider();
+  }
+}
 
-const signOutRequest = async () =>
-  await  auth.signOut()
-    .then(authUser => authUser)
-    .catch(error => error);
+const useAuth = () => {
+  const { data: user } = useUser();
+  const authFB = useAuthFB();
 
-
-const signInUserWithGoogleRequest = async () =>
-  await  auth.signInWithPopup(googleAuthProvider)
-    .then(authUser => authUser)
-    .catch(error => error);
-
-const signInUserWithFacebookRequest = async () =>
-  await  auth.signInWithPopup(facebookAuthProvider)
-    .then(authUser => authUser)
-    .catch(error => error);
-
-const signInUserWithGithubRequest = async () =>
-  await  auth.signInWithPopup(githubAuthProvider)
-    .then(authUser => authUser)
-    .catch(error => error);
-
-const signInUserWithTwitterRequest = async () =>
-  await  auth.signInWithPopup(twitterAuthProvider)
-    .then(authUser => authUser)
-    .catch(error => error);
-
-export const useAuth = () => {
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-
-  const setAuth = (data) => dispatch(getAction(AUTH_IN, data));
+  const setAuth = async (social) => {
+    await authFB.signInWithPopup(getProvider(social));
+  };
 
   return {
-    auth,
-    signInWithGoogle
+    user,
+    signIn: setAuth,
+    signOut: authFB.signOut
   }
 };
 
-export const useLogout = () => {
-  const dispatch = useDispatch();
-  const setLogout = () => dispatch(getAction(AUTH_OUT));
-  return setLogout;
-};
+export default useAuth;

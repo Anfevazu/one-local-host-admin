@@ -1,6 +1,6 @@
-import { message, ConfigProvider } from 'antd';
 import {IntlProvider} from "react-intl";
 import React, {memo, useEffect} from "react";
+import { message, ConfigProvider } from 'antd';
 
 import Router from '../../routes';
 import AppLocale from "lngProvider";
