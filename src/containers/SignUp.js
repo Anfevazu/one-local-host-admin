@@ -3,8 +3,8 @@ import {
   Col,
 } from "antd";
 import React from "react";
-import Form from '../components/SignUpForm/Form';
 
+import Form from '../components/SignUpForm/Form';
 
 
 const SignUp = () => {
