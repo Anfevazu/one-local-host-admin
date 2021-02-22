@@ -1,23 +1,24 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'connected-react-router'
-import {Route, Switch} from "react-router-dom";
-import "assets/vendors/style";
-import "styles/wieldy.less";
-import configureStore, { history } from './appRedux/store';
-import "./firebase/firebase";
-import App from "./containers/App/index";
+import { FirebaseAppProvider } from 'reactfire';
 
-const store = configureStore(/* provide initial state if any */);
+
+
+import "styles/wieldy.less";
+import "assets/vendors/style";
+import initStore from './store/store';
+import App from "./containers/App/index";
+import { configFirebase } from './constants/config';
+import Loader from './components/LoaderPage/LoaderPage';
 
 const NextApp = () =>
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Switch>
-        <Route path="/" component={App}/>
-      </Switch>
-    </ConnectedRouter>
-  </Provider>;
+  <Suspense fallback={<Loader />} >
+    <FirebaseAppProvider firebaseConfig={configFirebase} >
+      <Provider store={initStore()}>
+          <App />
+      </Provider>
+    </FirebaseAppProvider>
+  </Suspense>;
 
 
 export default NextApp;

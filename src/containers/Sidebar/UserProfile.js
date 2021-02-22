@@ -1,7 +1,7 @@
 import React from "react";
 import {useDispatch} from "react-redux";
 import {Avatar, Popover} from "antd";
-import {userSignOut} from "appRedux/actions/Auth";
+import {userSignOut} from "appReduxOld/actions/Auth";
 
 const UserProfile = () => {
   const dispatch = useDispatch();

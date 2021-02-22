@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import CircularProgress from "components/CircularProgress/index";
 import Auxiliary from "util/Auxiliary";
 import {useDispatch, useSelector} from "react-redux";
-import {hideMessage} from "appRedux/actions/Common";
+import {hideMessage} from "appReduxOld/actions/Common";
 
 const InfoView = () => {
 
